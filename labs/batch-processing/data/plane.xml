@@ -1,0 +1,8 @@
+<plane>
+      <name>Eagle</name>
+      <designation>F15</designation>
+      <variants>
+          <variant type="fighter">C</variant>
+          <variant type="fighter/attack">E</variant>
+      </variants>
+  </plane>

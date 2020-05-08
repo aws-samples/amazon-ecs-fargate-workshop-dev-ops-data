@@ -1,0 +1,42 @@
+{
+    "family": "PLACEHOLDER",
+    "containerDefinitions": [
+        {
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "containerPort": 80
+                }
+            ],
+            "image": "<PLACEHOLDER>",
+            "essential": true,
+            "name": "fargate_task_container",
+            "logConfiguration": {
+               "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "fargate-dev-workshop-test",
+                    "awslogs-region": "REGION",
+                    "awslogs-stream-prefix": "fargate-dev-workshop-test"
+                }
+            },
+            "privileged": false,
+            "linuxParameters": {
+               "capabilities": {
+                  "drop": [
+                    "SYS_ADMIN",
+                    "NET_ADMIN"
+                  ]
+                }
+            }
+        }
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "taskRoleArn": "PLACEHOLDER_TASK_ROLE",
+    "executionRoleArn": "PLACEHOLDER_EXECUTION_ROLE",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc"
+}

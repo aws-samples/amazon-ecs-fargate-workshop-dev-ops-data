@@ -1,0 +1,7 @@
+<customer>
+      <name>bob</name>
+      <phone>
+          <number type="mobile">1234</number>
+          <number type="home">4567</number>
+      </phone>
+  </customer>

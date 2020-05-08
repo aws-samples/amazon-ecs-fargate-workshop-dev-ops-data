@@ -1,0 +1,56 @@
+{
+    "Comment": "This workflow processes a list of XML files.",
+    "StartAt": "ProcessAllItems",
+    "States": {
+      "ProcessAllItems": {
+        "Type": "Map",
+        "ItemsPath": "$",
+        "Parameters": {
+            "InputFile.$": "$$.Map.Item.Value"
+        },
+        "MaxConcurrency": 5,
+        "Iterator": {
+          "StartAt": "ProcessFile",
+          "States": {
+            "ProcessFile": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::ecs:runTask.sync",
+              "Parameters": {
+                "LaunchType":"FARGATE",
+                "Cluster":"arn:aws:ecs:<region>:<acct>:cluster/<cluster id>",
+                "TaskDefinition":"arn:aws:ecs:<region>:<acct>:task-definition/<task def id>:<task def version>",
+                "NetworkConfiguration":{
+                    "AwsvpcConfiguration": {
+                        "Subnets":[
+                            "<fargate subnet 1>","<fargate subnet 2>"
+                            ],
+                         "SecurityGroups": [
+                             "<task security group>"
+                            ]
+                    }
+                },
+                "Overrides":{  
+                   "ContainerOverrides":[  
+                      {  
+                        "Name":"BatchContainer",
+                         "Environment":[  
+                            {  
+                               "Name":"S3PATH",
+                               "Value.$":"$.InputFile"
+                            }
+                         ]
+                      }
+                   ]
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        "Next": "StopDone"
+      },
+      "StopDone": {
+        "Type": "Succeed"
+      }
+    }
+  }

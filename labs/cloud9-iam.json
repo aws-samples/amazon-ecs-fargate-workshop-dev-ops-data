@@ -1,0 +1,36 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "FullAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*", 
+                "kafka:*", 
+                "rds:*", 
+                "ecr:*", 
+                "ecs:*", 
+                "ec2:*", 
+                "servicediscovery:*", 
+                "lambda:*", 
+                "ssm:*", 
+                "codepipeline:*", 
+                "codecommit:*", 
+                "codebuild:*", 
+                "cloudwatch:*", 
+                "transfer:*", 
+                "elasticloadbalancing:*",
+                "cloudformation:*",
+                "autoscaling:*",
+                "application-autoscaling:*",
+                "iam:*",
+                "events:*",
+                "logs:*",
+                "route53:*",
+                "codedeploy:*",
+                "kms:*"
+            ],
+            "Resource": ["*"]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+@startuml
+
+' Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-Identifier: MIT-0
+
+participant CDK #lightblue
+participant CodePipeline #lightblue
+
+== Lab 1 ==
+CDK --> MSK: Deploy as prereq
+CDK --> DocumentDB: Deploy as prereq
+CDK --> S3: Deploy as prereq
+CDK --> DataGenerator: Deploy as prereq
+CDK --> SFTP: Deploy as prereq
+CDK --> CodePipeline: Deploy as prereq
+CodePipeline --> FargateCluster: Deploy
+== Lab 2 ==
+CodePipeline --> FargateService: Deploy
+== Lab 3 ==
+CodePipeline --> KafkaConnect: Deploy
+CodePipeline --> StreamProcessor: Deploy
+== Lab 4 ==
+CDK --> Scheduler: Deploy
+CodePipeline --> ScheduledTask: Deploy
+CodePipeline --> Batch: Deploy
+
+@enduml

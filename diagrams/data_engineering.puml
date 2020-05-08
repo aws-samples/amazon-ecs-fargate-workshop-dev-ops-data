@@ -1,0 +1,48 @@
+@startuml Data Engineering with Fargate
+
+' Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-Identifier: MIT-0
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/NetworkingAndContentDelivery/all.puml
+!include AWSPuml/Compute/all.puml
+!include AWSPuml/Database/all.puml
+!include AWSPuml/Mobile/all.puml
+!include AWSPuml/Storage/all.puml
+!include AWSPuml/Analytics/all.puml
+!include AWSPuml/ApplicationIntegration/all.puml
+!include AWSPuml/ManagementAndGovernance/all.puml
+
+skinparam frame {
+	backgroundColor<<appmesh>> lightblue
+}
+
+title Batch Processing with Fargate
+
+package "Fargate" {
+    ECSContainer1(schtask, "Scheduled Task", "Workers", "")
+    ECSService(batchworker, "Batch Processors", "Workers", "")
+}
+package "Other AWS" {
+    together {
+        S3Bucket(batchbucket, "S3 Storage", "Object Storage", "outputs")
+        S3Bucket(ingestbucket, "S3 Storage", "Object Storage", "inputs")
+    }
+    together {
+        StepFunctions(sfn, "Step Functions", "Job Scheduler", "")
+        CloudWatchEventTimeBased(cw, "Cloud Cron", "CloudWatch Alarm", "")
+    }
+}
+component sftp as "SFTP Server"
+
+sfn -[#blue]-> batchworker: Invoke
+ingestbucket -[#blue]-> batchworker: Process
+batchworker -[#blue]-> batchbucket: Store
+
+cw -[#red]-> schtask: Invoke
+sftp -[#red]-> schtask: Process
+
+Fargate -[hidden]> sftp
+cw -[hidden]> batchbucket
+
+@enduml

@@ -1,0 +1,15 @@
+aws-cdk.aws-ec2
+aws-cdk.aws-docdb
+aws-cdk.aws-msk
+aws-cdk.aws_ecr
+aws-cdk.aws_ecs_patterns
+aws-cdk.aws-s3
+aws-cdk.aws_servicediscovery
+aws-cdk.aws_events 
+aws-cdk.aws_lambda 
+aws-cdk.aws_events_targets
+aws-cdk.aws_codepipeline
+aws-cdk.aws_codepipeline_actions
+aws-cdk.aws_codecommit
+aws-cdk.aws_codebuild
+aws-cdk.aws_transfer

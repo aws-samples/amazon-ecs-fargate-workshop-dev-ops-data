@@ -1,11 +1,12 @@
-## My Project
+# ECS Fargate Workshop
 
-TODO: Fill this README out!
+This workshop teaches you best practices for using ECS Fargate.  It has three independent modules targeted at different use cases.  
 
-Be sure to:
+* Development
+* Operations
+* Data engineering
 
-* Change the title in this README
-* Edit your repository description on GitHub
+The full documentation is available in the `site` folder, and is best viewed with [Hugo](https://learn.netlify.app/en/basics/).  You can run Hugo locally by downloading Hugo for your platform, going to the `site` folder, and running `hugo serve`.
 
 ## License Summary
 

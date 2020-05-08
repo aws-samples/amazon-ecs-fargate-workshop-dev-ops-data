@@ -1,0 +1,158 @@
+Parameters:
+
+  url: 
+    Type: String
+    Description: url from your loab balancer
+
+
+Resources:
+  cloudfronthealth1: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth1
+
+  cloudfronthealth2: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth2
+        
+  cloudfronthealth3: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth3
+        
+  cloudfronthealth4: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth4
+
+  cloudfronthealth5: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth5
+        
+  cloudfronthealth6s: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth6
+        
+
+  cloudfronthealth7: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth7
+        
+  cloudfronthealth8: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth8
+
+  cloudfronthealth9: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth9
+        
+  cloudfronthealth10: 
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: 
+      HealthCheckConfig: 
+        Port: 80
+        Type: HTTP
+        ResourcePath: '/'
+        FullyQualifiedDomainName: !Ref url
+        RequestInterval: 10
+        FailureThreshold: 3
+      HealthCheckTags: 
+      - 
+        Key: Name
+        Value: cloudfronthealth10

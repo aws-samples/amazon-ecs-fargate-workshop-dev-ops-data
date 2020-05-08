@@ -1,0 +1,38 @@
+version: 0.2
+
+env:
+  parameter-store:
+    REPOSITORY_URI: "repo_uri_s3_sink"
+    HC_REPOSITORY_URI: "repo_uri_s3_sink_hc"
+    REGION: "region"
+    IMG_NAME: "image_s3sink"
+    HC_IMG_NAME: "image_s3sink_hc"
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $REGION --no-include-email)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $HC_REPOSITORY_URI:latest $CODEBUILD_SRC_DIR_codehc
+      - docker tag $HC_REPOSITORY_URI:latest $HC_REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $HC_REPOSITORY_URI:latest
+      - docker push $HC_REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"%s","imageUri":"%s"}, {"name":"%s","imageUri":"%s"}]' $IMG_NAME $REPOSITORY_URI:$IMAGE_TAG $HC_IMG_NAME $HC_REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json

@@ -1,0 +1,53 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - apt-get update
+      - apt-get install -y jq
+      - npm install -g npm@6.4.1
+      
+  pre_build:
+    commands:
+      - echo 'starting build...'
+      - export IMAGE_TAG=build-`echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}'`
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      # Set up environment variables like image tag and repo
+      - echo Entered the post_build phase...
+      
+      #docker commands
+
+      - echo $project_name:$IMAGE_TAG
+      
+      - docker build -t $project_name:$IMAGE_TAG .
+      - docker tag $project_name:$IMAGE_TAG $ecr:$IMAGE_TAG
+      - docker push $ecr
+      
+      # Consume base image from the pipeline
+      - export BASE_IMAGE=`jq -r '.ImageURI' <$CODEBUILD_SRC_DIR_BaseImage/imageDetail.json`
+      - export BASE_IMAGE=`jq -r '.ImageURI' <$CODEBUILD_SRC_DIR_BaseImage/imageDetail.json`
+      - sed -i "s|$project_name:release|$BASE_IMAGE|g" Dockerfile
+
+      # Generate appspec and task definition files (filling in subnet IDs, security group IDs, etc)
+      - cd configs
+      - mkdir build
+      - npm ci
+      - node produce-config.js -g test -s $project_name + "test"
+      - node produce-config.js -g prod -s $project_name + "prod"
+      # - node produce-config.js -g test -s $project_name + "test"  -h $project_name + "hooks-test"
+      # - node produce-config.js -g prod -s $project_name + "prod" -h $project_name + "hooks-prod"
+artifacts:
+  secondary-artifacts:
+    BuildArtifact:
+      files:
+        - configs/build/appspec-prod.json
+        - configs/build/appspec-test.json
+        - configs/build/task-definition-test.json
+        - configs/build/task-definition-prod.json
+      discard-paths: yes
+    ImageDetails:
+      files:
+        - imageDetail.json
+      discard-paths: yes

@@ -1,0 +1,56 @@
+@startuml Microservices with Fargate
+
+' Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-Identifier: MIT-0
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/NetworkingAndContentDelivery/all.puml
+!include AWSPuml/Compute/all.puml
+!include AWSPuml/Database/all.puml
+!include AWSPuml/Mobile/all.puml
+
+skinparam frame {
+	backgroundColor<<appmesh>> lightblue
+}
+
+title Microservices with Fargate
+
+actor "Client" as client
+package "DMZ" {
+    ELBApplicationLoadBalancer(elb, "ALB", "load balancer", "External communication")
+    APIGateway(apigw, "API Gateway", "portal", "API endpoints")
+}
+package "Private" {
+    DocumentDBwithMongoDBcompatibility(docdb, "DocumentDB", "Mongo-compatible database", "Database")
+    EC2Instance(billing, "Back office system", "billing", "")
+}
+package "Fargate" {
+    frame "Service Mesh" <<appmesh>> as appmesh {
+        ECSService(frontend, "Front end service", "Microservice", "Service")
+        together {
+            ECSService(svcA, "Enterprise", "Microservice", "Service")
+            ECSService(svcB, "Yorktown", "Microservice", "Service")
+            ECSService(svcC, "Lexington", "Microservice", "Service")
+        }
+    }
+}
+CloudMap(cloudmap, "Cloud Map", "service discovery", "")
+
+client --> apigw
+apigw --> elb
+elb --> frontend
+frontend --> svcA 
+frontend --> svcB 
+frontend --> svcC 
+svcA --> cloudmap
+cloudmap --> docdb
+svcB --> cloudmap
+cloudmap --> billing
+
+note right of cloudmap: Use CloudMap for service discovery.
+note top of appmesh: Service mesh for microservice communication
+legend
+Pattern for each environment
+end legend
+
+@enduml

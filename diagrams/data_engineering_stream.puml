@@ -1,0 +1,44 @@
+@startuml Data Engineering with Fargate
+
+' Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-Identifier: MIT-0
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/NetworkingAndContentDelivery/all.puml
+!include AWSPuml/Compute/all.puml
+!include AWSPuml/Database/all.puml
+!include AWSPuml/Mobile/all.puml
+!include AWSPuml/Storage/all.puml
+!include AWSPuml/Analytics/all.puml
+!include AWSPuml/ApplicationIntegration/all.puml
+!include AWSPuml/ManagementAndGovernance/all.puml
+
+skinparam frame {
+	backgroundColor<<appmesh>> lightblue
+}
+
+title Stream Processing with Fargate
+
+actor "Users" as client
+package "DMZ" {
+    ELBApplicationLoadBalancer(elb, "ALB", "load balancer", "Kafka Connect endpoint")
+}
+package "Fargate" {
+    ECSService(kafkaconnect, "Kafka Connect", "Microservice", "")
+    ECSService(kafkaconsumer, "Kafka Consumer", "Stream processor", "")
+}
+package "Other AWS" {
+    S3Bucket(bucket, "Kafka S3 Storage", "Object Storage", "kafka data")
+    ManagedStreamingforKafka(kafka, "Kafka Cluster", "Streaming Ingest", "")
+    DocumentDBwithMongoDBcompatibility(docdb, "DocumentDB", "Mongo-compatible database", "")
+}
+
+client --> elb
+elb --> kafkaconnect
+kafkaconnect --> bucket
+kafkaconnect <-> kafka
+
+kafka --> kafkaconsumer
+kafkaconsumer --> docdb
+
+@enduml

@@ -1,0 +1,10 @@
+fargate-workshop.code-workspace
+.DS_Store
+.vscode/settings.json
+.env/
+labs/fargate-workshop-cdk/cdk.context.json
+labs/fargate-workshop-cdk/cdk.out/
+labs/fargate-workshop-cdk/fargate_workshop_cdk/__pycache__/
+.env
+cdk.out
+site/public/

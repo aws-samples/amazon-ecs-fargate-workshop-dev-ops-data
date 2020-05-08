@@ -1,0 +1,75 @@
+@startuml Fargate Operations and Security
+
+' Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License-Identifier: MIT-0
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/NetworkingAndContentDelivery/all.puml
+!include AWSPuml/Compute/all.puml
+!include AWSPuml/Database/all.puml
+!include AWSPuml/Mobile/all.puml
+!include AWSPuml/DeveloperTools/all.puml
+!include AWSPuml/ManagementAndGovernance/all.puml
+!include AWSPuml/SecurityIdentityAndCompliance/all.puml
+
+skinparam frame {
+	backgroundColor<<appmesh>> lightblue
+}
+skinparam package {
+	backgroundColor<<internal>> lightgreen
+	backgroundColor<<backend>> LightSlateGray
+	backgroundColor<<apps>> LightGoldenRodYellow
+	backgroundColor<<dmz>> PaleVioletRed
+}
+
+title Fargate Operations and Security
+
+actor "Developer" as client
+package "Tooling" <<internal>> {
+    EC2ContainerRegistry(ecr, "Registry", "container registry", "Private container registry")
+    CodePipeline(pipeline, "CI/CD", "Deployment pipeline", "")
+    component clair as "CoreOS Clair"
+}
+package "DMZ" <<dmz>> {
+    ELBApplicationLoadBalancer(elb, "ALB", "load balancer", "External communication")
+    APIGateway(apigw, "API Gateway", "portal", "API endpoints")
+}
+package "Private" <<backend>> {
+    DocumentDBwithMongoDBcompatibility(docdb, "DocumentDB", "Mongo-compatible database", "Database")
+    EC2Instance(billing, "Back office system", "billing", "")
+}
+package "Fargate" <<apps>> {
+    frame "Service Mesh" <<appmesh>> as appmesh {
+        ECSService(frontend, "Front end service", "Microservice", "Service")
+        node "Task" {
+            ECSContainer1(taskcode, "Container", "Business logic", "")
+            ECSContainer1(tasksec, "Sidecar", "Dynamic scan", "")
+        }
+    }
+}
+CloudMap(cloudmap, "Cloud Map", "service discovery", "")
+package "Ops" <<internal>> {
+    CloudWatch(logs, "CloudWatch logs", "Logging", "Cluster and tasks")
+    CloudWatch(metrics, "CloudWatch metrics", "Metrics", "Cluster and tasks")
+    AutoScaling(scaling, "Service autoscaling", "Scaling", "")
+    IAMPermissions(perms, "Permissions", "RBAC", "Cluster and tasks")
+}
+
+pipeline --> ecr
+ecr -[#red]-> clair: scan_on_push
+ecr --> Fargate: imagepull
+apigw --> elb
+elb --> frontend
+frontend --> cloudmap
+cloudmap --> docdb
+cloudmap --> billing
+Fargate --> Ops
+
+note right of cloudmap: Use CloudMap for service discovery.
+note top of appmesh: Service mesh for microservice communication
+legend
+Pattern for each environment
+Color coding indicates network boundaries
+end legend
+
+@enduml

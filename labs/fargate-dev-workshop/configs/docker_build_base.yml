@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - apt-get update
+      - apt-get install -y jq
+  pre_build:
+    commands:
+      - echo 'starting build...'
+      - export IMAGE_TAG=`echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}'`
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      #build docker image
+      - docker build -t $project_name:$tag .
+      - docker tag $project_name:$tag $ecr:$tag
+      - docker push $ecr
