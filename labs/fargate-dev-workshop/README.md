@@ -36,25 +36,27 @@ Next, let's update the Cloud9 environment to let you run the labs from the envir
 
 #### Deploy other prerequisites using CDK
 
+Git clone the workshop repo:
+
+    git clone https://github.com/aws-samples/amazon-ecs-fargate-workshop-dev-ops-data
+    mkdir ~/environment/fargate-dev-workshop
+    cp -r ~/environment/amazon-ecs-fargate-workshop-dev-ops-data/labs/fargate-dev-workshop/* ~/environment/fargate-dev-workshop/
+    cd ~/environment/fargate-dev-workshop
+
 In your Cloud 9 environment, install the CDK and update some dependencies:
 
-    npm install -g aws-cdk
+    npm install -g aws-cdk@1.19.0
+    
+Update to the latest version of pip
 
-Next clone the Git repo:
-
-    git clone ...
-    cd fargate-workshop
-
-Next we need to create a Python virtual environment.
-
-    virtualenv .env
-    source .env/bin/activate
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python get-pip.py
 
 Now we install some CDK modules.
 
     pip install awscli
     pip install --upgrade aws-cdk.core
-    pip install -r labs/fargate-dev-workshop/requirements.txt
+    pip install -r requirements.txt
 
 Create the file `~/.aws/config` with these lines:
 
@@ -62,11 +64,15 @@ Create the file `~/.aws/config` with these lines:
     region=REGION
     account=ACCOUNT
 
-We're now ready to deploy the prerequisites.
+Set environment variables which will be used later
 
-    cd ~/environment/fargate-workshop/labs/fargate-dev-workshop/
+    AWS_REGION=`aws configure get region`
+    echo $AWS_REGION
+    
+We're now ready to deploy the prerequisites.  Run the following, making sure to substitute the proper values for your `ACCOUNT` and `REGION`.
+
     touch ~/.aws/credentials
-    cdk bootstrap aws://<acct>/<region>
+    cdk bootstrap aws://ACCOUNT/REGION
     cdk synth
     cdk deploy pipeline-to-ecr
 
@@ -87,13 +93,16 @@ pipeline image here
 
 Let's connect to the a Git repository. We'll do this manually as setting up development tools is often done by hand.
 In the console, navigate to CodeCommit.
+
 Follow the instructions on the console to clone your new repo into a local folder in Cloud9.
 
 #### Initial Push
     
+    git init . 
+    git remote add origin <CodeCommit_Repo>
     git add .
     git commit -m "Initial commit"
-    git push
+    git push origin master
     
 #### Monitor your pipeline
 
@@ -256,12 +265,12 @@ You are able to select a time frame from the graphs and also view the container 
 ### Review Task Def
 
 Ensure the container is running without elevated privileged. 
-The default is false, however i would suggest to also explicitly state this in your task defintion.
+The default is false, however its suggested to also explicitly state this in your task defintion.
     
     "privileged": true|false
 
 #### Linux Capacitlies
-Linux Capacitlies applies to what docker privileges the container has.
+Linux Capacitlies applies to what docker privileges the container has. The containers network its configured and provided to it. The container shouldnt need to have the provides nessessary to modify its network.
 It is best practice to also apply least privilege here as well.
 In this example we are dropping some of the most privileged capabilities.
 

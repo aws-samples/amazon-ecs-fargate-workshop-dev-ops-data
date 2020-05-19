@@ -16,7 +16,7 @@
                "logDriver": "awslogs",
                 "options": {
                     "awslogs-group": "fargate-dev-workshop-test",
-                    "awslogs-region": "REGION",
+                    "awslogs-region": "us-west-2",
                     "awslogs-stream-prefix": "fargate-dev-workshop-test"
                 }
             },
