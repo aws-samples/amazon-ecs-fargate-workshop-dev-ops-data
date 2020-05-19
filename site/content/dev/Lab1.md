@@ -44,7 +44,8 @@ Clone the Git repo:
     
 We will be committing portions of this repo during this lab. To make it easier we will copy the used portions of the content to a separate location.
 
-    cp -r ~/environment/fargate-workshop/labs/amazon-ecs-fargate-workshop-dev-ops-data/ fargate-dev-workshop
+    mkdir ~/environment/fargate-dev-workshop
+    cp -r ~/environment/amazon-ecs-fargate-workshop-dev-ops-data/labs/fargate-dev-workshop/* ~/environment/fargate-dev-workshop/
     cd ~/environment/fargate-dev-workshop
     
 For the rest of the labs in this track we will be working in the directory `~/environment/fargate-dev-workshop`
