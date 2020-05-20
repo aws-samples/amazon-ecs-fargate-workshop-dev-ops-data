@@ -270,9 +270,7 @@ The default is false, however its suggested to also explicitly state this in you
     "privileged": true|false
 
 #### Linux Capacitlies
-Linux Capacitlies applies to what docker privileges the container has. The containers network its configured and provided to it. The container shouldnt need to have the provides nessessary to modify its network.
-It is best practice to also apply least privilege here as well.
-In this example we are dropping some of the most privileged capabilities.
+Linux Capacities applies to what docker privileges the container has on a host. It is best practice to also apply least privilege what the commands the container can send docker. For example the the container should not need access to the logs, when logging to stderr and stdout docker will take care of this for the container. The container should not need access to edit the network, this is provided for the container. In this example we are dropping some of the most privileged capabilities.
 
     "linuxParameters": {
       "capabilities": {
