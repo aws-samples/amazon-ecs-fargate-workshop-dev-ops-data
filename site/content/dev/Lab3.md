@@ -10,6 +10,7 @@ _Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License
 
 Before we deploy our VPC, ECS cluster, and service; enable CloudWatch container insights.
 Container insights is a useful feature of CloudWatch, which allows you to gain insights of resource usage of your containers.
+For more information on Container Insights see: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html
 
 Running the following command will enable CloudWatch container insights by default for all ECS clusters which will be deployed into this AWS account.
 

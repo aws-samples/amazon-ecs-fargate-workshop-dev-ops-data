@@ -38,22 +38,22 @@ Next, let's update the Cloud9 environment to let you run the labs from the envir
 
 #### Deploy other prerequisites using CDK
 
-In your Cloud 9 environment, install the CDK and update some dependencies:
+Clone the Git repo:
 
-    npm install -g aws-cdk@1.19.0
-
-Next clone the Git repo:
-
-    git clone ...
-    cd fargate-workshop
+    git clone https://github.com/aws-samples/amazon-ecs-fargate-workshop-dev-ops-data
     
 We will be committing portions of this repo during this lab. To make it easier we will copy the used portions of the content to a separate location.
 
-    cp -r ~/environment/fargate-workshop/labs/fargate-dev-workshop/ fargate-dev-workshop
+    mkdir ~/environment/fargate-dev-workshop
+    cp -r ~/environment/amazon-ecs-fargate-workshop-dev-ops-data/labs/fargate-dev-workshop/* ~/environment/fargate-dev-workshop/
     cd ~/environment/fargate-dev-workshop
     
 For the rest of the labs in this track we will be working in the directory `~/environment/fargate-dev-workshop`
 
+In your Cloud 9 environment, install the CDK and update some dependencies:
+
+    npm install -g aws-cdk@1.19.0
+    
 Update to the latest version of pip
 
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py

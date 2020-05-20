@@ -8,10 +8,13 @@ _Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. SPDX-License
 
 In this lab you will update our container image and then deploy in a Blue / Green fashion.
 
+#### IMPORTANT!
 Before you can do that, you will delete the service we just deployed.
 Using the AWS console navigate to the ECS console select the cluster for the workshop.
-Select the Service deployed and delete it
-Go to Tasks, and stop all running tasks.
+1. Select the Service deployed and delete it
+2. Go to Tasks, and stop all running tasks.
+3. Go to Task Definitions and delete all fargate-dev-workshop-test task definitions
+
 
 #### Navigate back configs
 
@@ -49,7 +52,7 @@ There are a few files which are needed for the next process.
 * Code Deploy deployment group
 * Code Deploy appspec
 
-These files currently exist in the `/configs` directory. Also in this directory we have a python script produce-configs.py.
+These files currently exist in the `/configs` directory. Also in this directory we have a python script `produce-configs.py`.
 
 Once your previous push has completed and is built.
 
@@ -57,9 +60,14 @@ This script will produce the correct configs needed for the deployment. This scr
 
 You will need to pass in the most currently docker image tag.
 
-    python produce-configs.py fargate-dev-workshop test <aws acc number>dkr.ecr.<aws region>.amazonaws.com/fargate-dev-workshop:<gui>
+    cd ~/environment/fargate-dev-workshop/configs/
+    python produce-configs.py fargate-dev-workshop test <AWS_ACC_NUMBER>dkr.ecr.<aws region>.amazonaws.com/fargate-dev-workshop:<gui>
 
 Once we have created the necessary config files we can begin to create our new service.
+
+#### Create ECS Task
+    
+    aws ecs register-task-definition --cli-input-json file://./task-definition-test.json
 
 #### Create ECS service
 
@@ -68,7 +76,6 @@ Once we have created the necessary config files we can begin to create our new s
 #### Create Code Deploy application
 
     aws deploy create-application --region $AWS_REGION --application-name fargate-dev-workshop-test --compute-platform ECS
-
 
 #### Create Code Deploy deployment groups
 
