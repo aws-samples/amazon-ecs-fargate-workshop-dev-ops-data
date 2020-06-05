@@ -5,7 +5,7 @@ import boto3
 import sys
 
 #command example
-#python produce-configs.py fargate-dev-workshop test 303389100237.dkr.ecr.us-west-2.amazonaws.com/fargate-dev-workshop:9b2de43d-e787-4f1e-b9df-1eb73319fa4d
+#python produce-configs.py fargate-dev-workshop test 11111111111.dkr.ecr.us-west-2.amazonaws.com/fargate-dev-workshop:9b2de43d-e787-4f1e-b9df-1eb73319fa4d
 
 
 #stack prefix given by cdk app.py

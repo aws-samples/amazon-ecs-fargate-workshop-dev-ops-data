@@ -8,3 +8,4 @@ labs/fargate-workshop-cdk/fargate_workshop_cdk/__pycache__/
 .env
 cdk.out
 site/public/
+cdk.context.json

@@ -30,14 +30,15 @@ Follow the instructions on the console to clone your new repo into a local folde
 #### Initial Push
     
     cd ~/environment/fargate-dev-workshop
+    git init . 
+    git add remote origin <Your_Repo_Url>
     git add .
     git commit -m "Initial commit"
-    git push
+    git push origin master
     
 #### Monitor your pipeline
 
-In the AWS Console, navigate Code Pipeline.
-Select your pipeline.
+In the AWS Console, navigate Code Pipeline and select your pipeline.
 
 Your pipeline should have failed in the linting stage.
 For more information, on the linting stage click `details`, then `Link to execution details`.
@@ -67,7 +68,7 @@ before:
     
 after:
 
-    FROM httpd:2.4.41
+    FROM httpd:2.4-alpine
     RUN apk -q add libcap=2.27-r0 --no-cache
 
 Push the changes to git

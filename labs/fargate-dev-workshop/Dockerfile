@@ -11,6 +11,5 @@ RUN getcap /usr/local/apache2/bin/httpd
 
 COPY ./app/ /usr/local/apache2/htdocs/
 
-#HEALTHCHECK --interval=60s --timeout=30s CMD nc -zv localhost 80 || exit 1
 #Run as a www-data
 USER www-data
