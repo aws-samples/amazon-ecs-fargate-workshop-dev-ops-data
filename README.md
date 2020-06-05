@@ -6,7 +6,7 @@ This workshop teaches you best practices for using ECS Fargate.  It has three in
 * Operations
 * Data engineering
 
-The full documentation is available in the `site` folder, and is best viewed with [Hugo](https://learn.netlify.app/en/basics/).  You can run Hugo locally by downloading Hugo for your platform, going to the `site` folder, and running `hugo serve`.
+Visit the [main workshop site](https://ecs-fargate-dev-ops-data.workshop.aws/) to see the documentation, which is also mirrored in the `site` folder.
 
 ## License Summary
 
