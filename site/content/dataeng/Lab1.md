@@ -27,7 +27,7 @@ Next, let's update the Cloud9 environment to let you run the labs from the envir
     * Click `Create role`.
     * Select `AWS service` for the entity and leave the service set to `EC2`.
     * On the next screen, choose `Create policy`.
-    * Switch to the JSON tab and paste in the contents of the file `cloud9-iam.json`.
+    * Switch to the JSON tab and paste in the contents of the file [cloud9-iam.json](https://raw.githubusercontent.com/aws-samples/amazon-ecs-fargate-workshop-dev-ops-data/master/labs/cloud9-iam.json).
     * Call the policy `Cloud9-fargate-policy`.
     * Click `Create policy`.
     * Switch back to the browser tab with the new role, and assign the policy you just made.
@@ -46,7 +46,7 @@ In your Cloud 9 environment, install the CDK and update some dependencies:
 
 Next clone the Git repo:
 
-    git clone ...
+    git clone https://github.com/aws-samples/amazon-ecs-fargate-workshop-dev-ops-data.git fargate-workshop
     cd fargate-workshop
 
 Next we need to create a Python virtual environment.

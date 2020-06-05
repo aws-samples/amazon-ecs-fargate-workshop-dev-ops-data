@@ -45,7 +45,7 @@ In your Cloud 9 environment, install the CDK and update some dependencies:
 
 Next clone the Git repo:
 
-    git clone ...
+    git clone https://github.com/aws-samples/amazon-ecs-fargate-workshop-dev-ops-data.git fargate-workshop-ops
     cd fargate-workshop-ops
 
 Next we need to create a Python virtual environment.
