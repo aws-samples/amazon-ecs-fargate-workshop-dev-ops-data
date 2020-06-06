@@ -6,7 +6,7 @@ This workshop teaches you best practices for using ECS Fargate.  It has three in
 * Operations
 * Data engineering
 
-Visit the [main workshop site](https://ecs-fargate-dev-ops-data.workshop.aws/) to see the documentation, which is also mirrored in the `site` folder.
+Visit the [main workshop site](https://ecs-fargate-dev-ops-data.workshop.aws/) to see the documentation. 
 
 ## License Summary
 
